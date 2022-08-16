@@ -68,11 +68,12 @@ public class IntListExercises {
         }
 
         boolean currElemIsPrime = Primes.isPrime(lst.first);
-
+        boolean everPrime = false;
         if (currElemIsPrime) {
             lst.first *= lst.first;
+            everPrime = true;
         }
         squarePrimes(lst.rest);
-        return true;
+        return everPrime;
     }
 }
