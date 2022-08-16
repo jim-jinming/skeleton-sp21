@@ -63,17 +63,17 @@ public class IntListExercises {
      */
     public static boolean squarePrimes(IntList lst) {
         // Base Case: we have reached the end of the list
-        if (lst == null) {
-            return false;
-        }
-
-        boolean currElemIsPrime = Primes.isPrime(lst.first);
+        int size = lst.iterativeSize();
+        IntList temp = lst;
         boolean everPrime = false;
-        if (currElemIsPrime) {
-            lst.first *= lst.first;
-            everPrime = true;
+        for (int i = 0; i < size; i++) {
+            boolean currElemIsPrime = Primes.isPrime(lst.get(i));
+            if (currElemIsPrime) {
+                temp.first *= temp.first;
+                everPrime = true;
+            }
+            temp = temp.rest;
         }
-        squarePrimes(lst.rest);
         return everPrime;
     }
 }
