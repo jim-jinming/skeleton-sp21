@@ -114,6 +114,6 @@ public class ArrayDeque<T> {
         if (index > size) {
             return null;
         }
-        return items[transistor(nextFirst + index -1)];
+        return items[transistor(transistor(nextFirst + 1) + index)];
     }
 }
