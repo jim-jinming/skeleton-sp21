@@ -1,11 +1,8 @@
 package game2048;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 
 /**
  * @author hug
@@ -29,7 +26,7 @@ public class Board implements Iterable<Tile> {
     /** Create a board where RAWVALUES hold the values of the tiles on the board 
      * (0 is null) with a current score of SCORE and the viewing perspective set to north. */
     public Board(int[][] rawValues, int score) {
-        int size = rawValues.length;
+        int size = rawValues.length; // length of 2-d array? -- length of one edge
         values = new Tile[size][size];
         viewPerspective = Side.NORTH;
         for (int col = 0; col < size; col += 1) {
@@ -62,8 +59,10 @@ public class Board implements Iterable<Tile> {
         return values[side.col(col, row, size())][side.row(col, row, size())];
     }
 
-    /** Return the current Tile at (COL, ROW), where 0 <= ROW < size(),
-     *  0 <= COL < size(). Returns null if there is no tile there. */
+    /**
+     * Return the current Tile at (COL, ROW), where 0 <= ROW < size(),
+     * 0 <= COL < size(). Returns null if there is no tile there.
+     */
     public Tile tile(int col, int row) {
         return vtile(col, row, viewPerspective);
     }
@@ -93,6 +92,8 @@ public class Board implements Iterable<Tile> {
         }
         Tile tile1 = vtile(col, row, viewPerspective);
         values[tile.col()][tile.row()] = null;
+        // tile is the moving tile
+        // tile1 is the destination
 
         if (tile1 == null) {
             values[pcol][prow] = tile.move(pcol, prow);

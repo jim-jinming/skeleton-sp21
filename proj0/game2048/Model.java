@@ -1,11 +1,12 @@
 package game2048;
 
+import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author JinMing YOU
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -113,13 +114,84 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        board.setViewingPerspective(side);
+        for (int col = 0; col < size(); col++){
+            for (int row = size()-1; row >= 0; row--) {
+                if (emptyTileExistsIn(col, row)) {
+                    Tile nextTile = findNextNonEmptyTile(col, row);
+                    if (nextTile != null) {
+                        board.move(col, row, nextTile);
+                        changed = true;
+                    } else {
+                        // there is no other non-empty tile
+                        // break this loop of column
+                        break;
+                    }
+                    // after the move to fill empty tile is done
+                }
+                Tile nextSameTile = findNextSameValueTile(col, row);
+                if(nextSameTile != null) {
+                    board.move(col, row, nextSameTile);
+                    changed = true;
+                    score += nextSameTile.value()*2;
+                }
+            }
+        }
 
+        board.setViewingPerspective(Side.NORTH);
         checkGameOver();
         if (changed) {
             setChanged();
         }
         return changed;
     }
+    /**
+     * Checks if the tile is an empty tile, return the Tile coordinates,
+     * or return null.
+     */
+    public boolean emptyTileExistsIn(int Col, int Row) {
+        Tile targetTile = board.tile(Col, Row);
+        // if there is an empty tile, return its position
+        if(targetTile == null) {
+            return true;
+        }
+        return false;
+    }
+    /**
+     * Find the next non-empty tile, return the Tile coordinates,
+     * or return null.
+     * */
+    public Tile findNextNonEmptyTile(int colPrev, int rowPrev) {
+        // iterate through every Row, starting from the previous row, stop at the first row
+        for (int i = rowPrev-1; i >= 0; i--) {
+            Tile targetTile = board.tile(colPrev, i);
+            // if there is a non-empty tile, return its position
+            if(targetTile != null) {
+                return targetTile;
+            }
+        }
+        return null;
+    }
+    /**
+     * Find the next non-empty tile, has the value v, return its coordinates,
+     * or return null.
+     * */
+    public Tile findNextSameValueTile(int prevCol, int prevRow) {
+        int v = board.tile(prevCol, prevRow).value();
+        for (int i = prevRow-1; i >= 0; i--) {
+            Tile targetTile = board.tile(prevCol, i);
+            if(targetTile != null) {
+                if(targetTile.value() == v) {
+                    return targetTile;
+                } else {
+                    // there is a non-empty tile down the road, but not of the same value
+                    return null;
+                }
+            }
+        }
+        return null;
+    }
+
 
     /** Checks if the game is over and sets the gameOver variable
      *  appropriately.
@@ -133,11 +205,25 @@ public class Model extends Observable {
         return maxTileExists(b) || !atLeastOneMoveExists(b);
     }
 
+    /* Helper method: tell me what you want,
+     * Iterate through given Board,
+     * to find given char */
+
     /** Returns true if at least one space on the Board is empty.
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        // b.size RETURNS the length of edge of the Matrix b
+        // iterate through y0, y1, y2, y3
+        // by iterate through x0, x1, x2, x3
+        int edgeLength = b.size();
+        for (int y = 0; y < edgeLength; y++) {
+            for (int x = 0; x < edgeLength; x++) {
+                if (b.tile(y, x) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -147,7 +233,16 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        int edgeLength = b.size();
+        for (int y = 0; y < edgeLength; y++) {
+            for (int x = 0; x < edgeLength; x++) {
+                if (b.tile(y, x) != null) {
+                    if (b.tile(y, x).value() == MAX_PIECE) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -158,7 +253,29 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        if (emptySpaceExists(b)) {
+            return true;
+        }
+        // for each tile check if adjacent tiles has the same value
+        // avoid repeated look-up
+        // start from bottom-left, only look top-right
+        int edgeLength = b.size();
+        for (int y = 0; y < edgeLength; y++) {
+            for (int x = 0; x < edgeLength; x++) {
+                int dx = x + 1;
+                if (dx < edgeLength) {
+                    if (b.tile(y, x).value()==b.tile(y, dx).value()) {
+                        return true;
+                    }
+                }
+                int dy = y + 1;
+                if (dy < edgeLength) {
+                    if (b.tile(y, x).value()==b.tile(dy, x).value()) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 

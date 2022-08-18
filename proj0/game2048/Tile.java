@@ -34,7 +34,7 @@ public class Tile {
      *  own successor. */
     public Tile next() {
         return next == null ? this : next;
-    }
+    } // if next==null, RETURN this, otherwise RETURN next
 
     /** Return a new tile at (ROW, COL) with value VALUE. */
     public static Tile create(int value, int col, int row) {
@@ -52,7 +52,7 @@ public class Tile {
      *  (COL, ROW). */
     public Tile merge(int col, int row, Tile otherTile) {
         assert value == otherTile.value();
-        next = otherTile.next = new Tile(2 * value, col, row);
+        next = otherTile.next = new Tile(2 * value, col, row); // what's this 3-stage equal?!
         return next;
     }
 
