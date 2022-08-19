@@ -91,7 +91,7 @@ public class LinkedListDeque<T> implements Deque<T> {
     @Override
     public T removeFirst() {
         if (size != 0) {
-            size --;
+            size--;
             // reference the first node.
             Node toRemove = sentinel.next;
             Node secondFront = toRemove.next;
@@ -113,7 +113,7 @@ public class LinkedListDeque<T> implements Deque<T> {
     @Override
     public T removeLast() {
         if (size != 0) {
-            size --;
+            size--;
             Node toRemove = sentinel.prev;
             Node secondBack = toRemove.prev;
             // sentinel's prev -> second-back node.
@@ -157,7 +157,7 @@ public class LinkedListDeque<T> implements Deque<T> {
         return getRecursive(startAt.next, index - 1);
     }
     public T getRecursive(int index) {
-        if (index > size -1) {
+        if (index > size - 1) {
             return null;
         }
 

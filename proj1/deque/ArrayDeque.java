@@ -52,14 +52,15 @@ public class ArrayDeque<T> implements Deque<T> {
     public void resize() {
         T[] biggerArray = (T[]) new Object[size * 2];
         // if nextLast > nextFirst
-        int realFirst = transistor(nextFirst+1);
-        int realLast = transistor(nextLast-1);
+        int realFirst = transistor(nextFirst + 1);
+        int realLast = transistor(nextLast - 1);
         int lengthBeforeResizing = items.length;
         if (realFirst < realLast) {
             System.arraycopy(items, realFirst, biggerArray, realFirst, size);
         } else {
-            System.arraycopy(items, 0, biggerArray, 0, realLast+1);
-            System.arraycopy(items, realFirst, biggerArray, lengthBeforeResizing + realFirst, lengthBeforeResizing-realFirst);
+            System.arraycopy(items, 0, biggerArray, 0, realLast + 1);
+            System.arraycopy(items, realFirst, biggerArray, lengthBeforeResizing + realFirst,
+                    lengthBeforeResizing - realFirst);
             nextFirst = nextFirst + lengthBeforeResizing;
         }
         items = biggerArray;
@@ -92,7 +93,7 @@ public class ArrayDeque<T> implements Deque<T> {
         nextFirst = transistor(nextFirst + 1);
         T temp = items[nextFirst];
         items[nextFirst] = null;
-        size = size -1;
+        size = size - 1;
         return temp;
     }
 
@@ -100,13 +101,13 @@ public class ArrayDeque<T> implements Deque<T> {
     * If no such item exists, returns null. */
    @Override
    public T removeLast() {
-       if (isEmpty()) {
-           return null;
-       }
+        if (isEmpty()) {
+            return null;
+        }
        nextLast = transistor(nextLast - 1);
        T temp = items[nextLast];
        items[nextLast] = null;
-       size = size -1;
+       size = size - 1;
        return temp;
    }
 
