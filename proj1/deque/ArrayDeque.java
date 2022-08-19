@@ -1,6 +1,6 @@
 package deque;
 
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Deque<T> {
     // double-ended queue
     // keep track of the first/last item
     private int size;
@@ -26,6 +26,7 @@ public class ArrayDeque<T> {
     }
     // add and remove must take constant time, except during resizing operations.
     /** Adds an item of type T to the front of the deque. */
+    @Override
     public void addFirst(T item) {
         if (items.length == size) {
             resize();
@@ -37,6 +38,7 @@ public class ArrayDeque<T> {
     }
 
     /** Adds an item of type T to the back of the deque. */
+    @Override
     public void addLast(T item) {
         if (items.length == size) {
             resize();
@@ -63,13 +65,11 @@ public class ArrayDeque<T> {
         items = biggerArray;
     }
 
-    /** Returns true if deque is empty, false otherwise. */
-    public boolean isEmpty() {
-        return size == 0;
-    }
+    /* Returns true if deque is empty, false otherwise. */
 
     // get and size must take constant time.
     /** Returns the number of items in the deque. */
+    @Override
     public int size() {
         return size;
     }
@@ -77,12 +77,14 @@ public class ArrayDeque<T> {
     /** Prints the items in the deque from first to last,
      * separated by a space.
      * Once all the items have been printed, print out a new line. */
+    @Override
     public void printDeque() {
 
     }
 
     /** Removes and returns the item at the front of the deque.
      * If no such item exists, returns null. */
+    @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -96,6 +98,7 @@ public class ArrayDeque<T> {
 
    /** Removes and returns the item at the back of the deque.
     * If no such item exists, returns null. */
+   @Override
    public T removeLast() {
        if (isEmpty()) {
            return null;
@@ -110,6 +113,7 @@ public class ArrayDeque<T> {
     /** Gets the item at the given index,
      * where 0 is the front, 1 is the next item, and so forth.
      * If no such item exists, returns null. Must not alter the deque! */
+    @Override
     public T get(int index) {
         if (index > size) {
             return null;

@@ -1,6 +1,6 @@
 package deque;
 
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T> {
     private int size;
     private Node sentinel;
 
@@ -41,6 +41,7 @@ public class LinkedListDeque<T> {
     }
 
     /** Adds an item of type T to the front of the deque */
+    @Override
     public void addFirst(T item) {
         size += 1;
         // modify previousNode.next, which is always sentinel
@@ -52,6 +53,7 @@ public class LinkedListDeque<T> {
 
 
     /** Adds an item of type T to the back of the deque */
+    @Override
     public void addLast(T item) {
         size += 1;
         // previous node of sentinel is always pointed to the Last Node,
@@ -61,12 +63,10 @@ public class LinkedListDeque<T> {
         lastNode.prev.next = lastNode;
     }
 
-    /** Returns true if deque is empty, false otherwise */
-    public boolean isEmpty() {
-        return size == 0;
-    }
+    /* Returns true if deque is empty, false otherwise */
 
     /** Returns the number of items in the deque */
+    @Override
     public int size() {
         return size;
     }
@@ -74,6 +74,7 @@ public class LinkedListDeque<T> {
     /** Prints the items in the deque from first to last,
      * separated by a space.
      * Once all the items have been printed, print out a new line */
+    @Override
     public void printDeque() {
         Node p = sentinel;
         for (int c = 0; c < size; c++) {
@@ -87,6 +88,7 @@ public class LinkedListDeque<T> {
 
     /** Removes and returns the item at the front of the deque.
      * If no such item exists, returns null */
+    @Override
     public T removeFirst() {
         if (size != 0) {
             size --;
@@ -108,6 +110,7 @@ public class LinkedListDeque<T> {
 
     /** Removes and returns the item at the back of the deque.
      * If no such item exists, returns null */
+    @Override
     public T removeLast() {
         if (size != 0) {
             size --;
@@ -130,6 +133,7 @@ public class LinkedListDeque<T> {
      * 1 is the next item, and so forth.
      * If no such item exists, returns null.
      * Must not alter the deque! */
+    @Override
     public T get(int index) {
         // consider negative?
         Node startAt = sentinel;
