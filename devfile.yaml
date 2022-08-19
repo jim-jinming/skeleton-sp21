@@ -1,0 +1,10 @@
+schemaVersion: 2.2.0
+metadata:
+  name: 'configJava'
+attributes:
+  space:
+  instanceType: regular
+    editor:
+      type: Idea
+      # release state, e.g. Release or EAP
+      updateChannel: Release
