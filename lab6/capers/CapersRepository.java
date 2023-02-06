@@ -1,6 +1,8 @@
 package capers;
 
 import java.io.File;
+import java.io.IOException;
+
 import static capers.Utils.*;
 
 /** A repository for Capers 
@@ -18,8 +20,10 @@ public class CapersRepository {
     static final File CWD = new File(System.getProperty("user.dir"));
 
     /** Main metadata folder. */
-    static final File CAPERS_FOLDER = null; // TODO Hint: look at the `join`
-                                            //      function in Utils
+    static final File CAPERS_FOLDER = Utils.join(CWD, ".capers");
+
+    /** the story file. */
+    static final File STORY  = Utils.join(CAPERS_FOLDER, "story.txt");
 
     /**
      * Does required filesystem operations to allow for persistence.
@@ -32,6 +36,22 @@ public class CapersRepository {
      */
     public static void setupPersistence() {
         // TODO
+        if (!CAPERS_FOLDER.exists()) {
+            CAPERS_FOLDER.mkdir();
+        }
+
+        if (!Dog.DOG_FOLDER.exists()) {
+            Dog.DOG_FOLDER.mkdir();
+        }
+
+        if (!STORY.exists()) {
+            try {
+                STORY.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 
     /**
@@ -41,8 +61,10 @@ public class CapersRepository {
      */
     public static void writeStory(String text) {
         // TODO
+        String leads = Utils.readContentsAsString(STORY);
+        Utils.writeContents(STORY, leads+text+'\n');
+        System.out.println(Utils.readContentsAsString(STORY));
     }
-
     /**
      * Creates and persistently saves a dog using the first
      * three non-command arguments of args (name, breed, age).
@@ -50,6 +72,9 @@ public class CapersRepository {
      */
     public static void makeDog(String name, String breed, int age) {
         // TODO
+        Dog freshmen = new Dog(name, breed, age);
+        freshmen.saveDog();
+        System.out.println(freshmen.toString());
     }
 
     /**
@@ -60,5 +85,8 @@ public class CapersRepository {
      */
     public static void celebrateBirthday(String name) {
         // TODO
+        Dog legacy = Dog.fromFile(name);
+        legacy.haveBirthday();
+        legacy.saveDog();
     }
 }
