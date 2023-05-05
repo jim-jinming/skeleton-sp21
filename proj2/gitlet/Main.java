@@ -14,6 +14,9 @@ public class Main {
         switch(firstArg) {
             case "init":
                 // TODO: handle the `init` command
+                // is there a .gitlet already?
+                    // if so throw error
+                // else create a .gitlet folder and a commit file
                 break;
             case "add":
                 // TODO: handle the `add [filename]` command
